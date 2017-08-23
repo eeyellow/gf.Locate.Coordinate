@@ -49,9 +49,15 @@
                 'display': 'inline-block'
             },
 
-            coord: {
-                'WGS84': 'WGS84',
-                'TWD97': 'TWD97'            
+            proj: {
+                'EPSG:4326': {
+                    name: 'WGS84',
+                    def: '+title=long/lat:WGS84 +proj=longlat +a=6378137.0 +b=6356752.31424518 +ellps=WGS84 +datum=WGS84 +units=degrees'
+                },
+                'EPSG:3826': {
+                    name: 'TWD97',
+                    def: '+proj=tmerc +lat_0=0 +lon_0=121 +k=0.9999 +x_0=250000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
+                }        
             },
             
             onClick: undefined,            
@@ -65,7 +71,7 @@
             _init: function (_options) {
                 //合併自訂參數與預設參數
                 try {
-                    this.opt = $.extend(true, {}, gfLocateCoordinate.defaults, _options);
+                    this.opt = $.extend(true, {}, gfLocateCoordinate.defaults, _options);                    
                     return true;
                 } catch (ex) {
                     return false;
@@ -77,12 +83,15 @@
 
                 var lbl = $('<label/>',{ 'text': '座標系統' });
                 var sel = $('<select/>');
-                Object.keys(o.opt.coord).forEach(function(key){
-                    var option = $('<option/>',{ 'value': o.opt.coord[key], 'text': key });
+                Object.keys(o.opt.proj).forEach(function(key){
+                    proj4.defs(key, o.opt.proj[key]["def"]);
+
+                    var option = $('<option/>',{ 'value': key, 'text': o.opt.proj[key]["name"] });
                     sel.append(option);
                 });
                 o.target.append(lbl);
                 o.target.append(sel);
+                
             },
             _event: function () {
                 var o = this;
