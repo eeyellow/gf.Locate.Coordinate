@@ -4,24 +4,34 @@
     var pluginName = 'gfLocateCoordinate'; //Plugin名稱
     var gfLocateCoordinate;
 
-    if($.cachedScript == undefined){
-        $.cachedScript = function (url, options) {
-            // Allow user to set any option except for dataType, cache, and url
-            options = $.extend(options || {}, {
-                dataType: "script",
-                cache: true,
-                url: url
-            });
-            // Use $.ajax() since it is more flexible than $.getScript
-            // Return the jqXHR object so we can chain callbacks
-            return $.ajax(options);
-        };
-    }    
-    
     //Load dependencies first
     $.when(
-        $.cachedScript('node_modules/proj4/dist/proj4.js'),
-        $.cachedScript('node_modules/select2/dist/js/select2.min.js')
+        $.ajax({
+            url: 'node_modules/select2/dist/css/select2.min.css',
+            dataType: 'text',
+            cache: true
+        }).then(data => {
+            var style = $('<style/>',{ 'text': data });
+            $('head').append(style);
+        }),
+        $.ajax({
+            url: 'node_modules/gf.locate.coordinate/src/css/gf.Locate.Coordinate.css',
+            dataType: 'text',
+            cache: true
+        }).then(data => {
+            var style = $('<style/>',{ 'text': data });
+            $('head').append(style);
+        }),
+        $.ajax({
+            url: 'node_modules/proj4/dist/proj4.js',
+            dataType: 'script',
+            cache: true
+        }),
+        $.ajax({
+            url: 'node_modules/select2/dist/js/select2.min.js',
+            dataType: 'script',
+            cache: true
+        })
     )
     .done(function(){
         //建構式
