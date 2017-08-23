@@ -1,0 +1,13 @@
+.gfLocateCoordinate-Row{
+    display: flex;
+    padding: 20px;
+}
+.gfLocateCoordinate-Label{
+    flex: 2;
+    text-align: center;
+    height: 28px;
+    line-height: 28px;
+}
+.gfLocateCoordinate-Select{
+    flex: 4;    
+}

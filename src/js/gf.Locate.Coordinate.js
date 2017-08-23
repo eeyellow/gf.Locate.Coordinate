@@ -4,6 +4,20 @@
     var pluginName = 'gfLocateCoordinate'; //Plugin名稱
     var gfLocateCoordinate;
 
+    if($.cachedScript == undefined){
+        $.cachedScript = function (url, options) {
+            // Allow user to set any option except for dataType, cache, and url
+            options = $.extend(options || {}, {
+                dataType: "script",
+                cache: true,
+                url: url
+            });
+            // Use $.ajax() since it is more flexible than $.getScript
+            // Return the jqXHR object so we can chain callbacks
+            return $.ajax(options);
+        };
+    }    
+    
     //Load dependencies first
     $.when(
         $.ajax({
@@ -95,17 +109,22 @@
                 var o = this;
                 o.target.css(o.opt.css);
 
-                var lbl = $('<label/>',{ 'text': '座標系統' });
-                var sel = $('<select/>');
+                var div = $('<div/>', { 'class': 'gfLocateCoordinate-Row' });
+                var lbl = $('<label/>', { 'class': 'gfLocateCoordinate-Label', 'text': '座標系統' });
+                var sel = $('<select/>', { 'class': 'gfLocateCoordinate-Select' });
+                
                 Object.keys(o.opt.proj).forEach(function(key){
                     proj4.defs(key, o.opt.proj[key]["def"]);
 
                     var option = $('<option/>',{ 'value': key, 'text': o.opt.proj[key]["name"] });
                     sel.append(option);
                 });
-                o.target.append(lbl);
-                o.target.append(sel);
                 
+                div.append(lbl);
+                div.append(sel);
+                o.target.append(div);
+
+                sel.select2();
             },
             _event: function () {
                 var o = this;
