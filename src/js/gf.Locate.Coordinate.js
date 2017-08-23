@@ -19,7 +19,11 @@
     }    
     
     //Load dependencies first
-    $.cachedScript('node_modules/proj4/dist/proj4.js').done(function(){
+    $.when(
+        $.cachedScript('node_modules/proj4/dist/proj4.js'),
+        $.cachedScript('node_modules/select2/dist/js/select2.min.js')
+    )
+    .done(function(){
         //建構式
         gfLocateCoordinate = function (element, options) {
 
