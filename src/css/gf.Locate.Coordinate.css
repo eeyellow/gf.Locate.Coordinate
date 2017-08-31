@@ -11,3 +11,9 @@
 .gfLocateCoordinate-Select{
     flex: 4;    
 }
+.gfLocateCoordinate-Button{    
+    flex: 1;
+    text-align: center;
+    height: 28px;
+    line-height: 28px;
+}

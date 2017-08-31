@@ -3,21 +3,7 @@
     //'use strict';
     var pluginName = 'gfLocateCoordinate'; //Plugin名稱
     var gfLocateCoordinate;
-
-    if($.cachedScript == undefined){
-        $.cachedScript = function (url, options) {
-            // Allow user to set any option except for dataType, cache, and url
-            options = $.extend(options || {}, {
-                dataType: "script",
-                cache: true,
-                url: url
-            });
-            // Use $.ajax() since it is more flexible than $.getScript
-            // Return the jqXHR object so we can chain callbacks
-            return $.ajax(options);
-        };
-    }    
-    
+     
     //Load dependencies first
     $.when(
         $.ajax({
@@ -109,29 +95,57 @@
                 var o = this;
                 o.target.css(o.opt.css);
 
-                var div = $('<div/>', { 'class': 'gfLocateCoordinate-Row' });
-                var lbl = $('<label/>', { 'class': 'gfLocateCoordinate-Label', 'text': '座標系統' });
+                var row1 = $('<div/>', { 'class': 'gfLocateCoordinate-Row' });
+                var lbl1 = $('<label/>', { 'class': 'gfLocateCoordinate-Label', 'text': '座標系統' });
                 var sel = $('<select/>', { 'class': 'gfLocateCoordinate-Select' });
-                
                 Object.keys(o.opt.proj).forEach(function(key){
                     proj4.defs(key, o.opt.proj[key]["def"]);
 
                     var option = $('<option/>',{ 'value': key, 'text': o.opt.proj[key]["name"] });
                     sel.append(option);
                 });
-                
-                div.append(lbl);
-                div.append(sel);
-                o.target.append(div);
+                row1.append(lbl1);
+                row1.append(sel);
+
+                var row2 = $('<div/>', { 'class': 'gfLocateCoordinate-Row' });
+                var lbl2 = $('<label/>', { 'class': 'gfLocateCoordinate-Label', 'text': 'X座標或E經度' });
+                var input2 = $('<input/>', { 'class': 'gfLocateCoordinate-Input gfLocateCoordinate-x', 'type': 'text' });
+                row2.append(lbl2);
+                row2.append(input2);
+
+                var row3 = $('<div/>', { 'class': 'gfLocateCoordinate-Row' });
+                var lbl3 = $('<label/>', { 'class': 'gfLocateCoordinate-Label', 'text': 'Y座標或N緯度' });
+                var input3 = $('<input/>', { 'class': 'gfLocateCoordinate-Input gfLocateCoordinate-y', 'type': 'text' });
+                row3.append(lbl3);
+                row3.append(input3);
+
+                var row4 = $('<div/>', { 'class': 'gfLocateCoordinate-Row' });
+                var btn4 = $('<button/>', { 'class': 'gfLocateCoordinate-Button', 'text': '定位' });
+                row4.append(btn4);
+
+                o.target.append(row1);
+                o.target.append(row2);
+                o.target.append(row3);
+                o.target.append(row4);
 
                 sel.select2();
             },
             _event: function () {
                 var o = this;
-                
+                o.target
+                    .find('.gfLocateCoordinate-Button')
+                    .click(function(e){
+                        var x = o.target.find('.gfLocateCoordinate-x').val();
+                        var y = o.target.find('.gfLocateCoordinate-y').val();
+                        var coord = o.target.find('.gfLocateCoordinate-Select').val();
+                        var newPoint = o._coordinateTransfer(x, y, coord);
+                        o.target.trigger("onClick", newPoint);
+                    });
             },
 
-
+            _coordinateTransfer: function(x, y, sourceCoord, targetCoord="EPSG:4326"){
+                return proj4(sourceCoord, targetCoord, { x: x * 1, y: y * 1 });                
+            },
 
             //註冊事件接口
             _subscribeEvents: function () {
@@ -151,7 +165,7 @@
 
         };
     });
-
+    
     //實例化，揭露方法，回傳
     $.fn[pluginName] = function (options, args) {
         var gfInstance;
