@@ -55,8 +55,8 @@
         gfLocateCoordinate.defaults = {
             
             css: {
-                'width': '300px',
-                'height': '300px',
+                'width': '100%',
+                
                 'background-color': '#e3f0db',
                 'overflow-y': 'hidden',
                 'overflow-x': 'hidden',
