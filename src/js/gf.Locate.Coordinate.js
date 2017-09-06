@@ -3,25 +3,25 @@
     //'use strict';
     var pluginName = 'gfLocateCoordinate'; //Plugin名稱
     var gfLocateCoordinate;
-     
+
+    $.ajax({
+        url: 'node_modules/select2/dist/css/select2.min.css',
+        dataType: 'text',
+        cache: true
+    }).then(data => {
+        var style = $('<style/>',{ 'text': data });
+        $('head').append(style);
+    });
+    $.ajax({
+        url: 'node_modules/gf.locate.coordinate/src/css/gf.Locate.Coordinate.css',
+        dataType: 'text',
+        cache: true
+    }).then(data => {
+        var style = $('<style/>',{ 'text': data });
+        $('head').append(style);
+    });
     //Load dependencies first
     $.when(
-        $.ajax({
-            url: 'node_modules/select2/dist/css/select2.min.css',
-            dataType: 'text',
-            cache: true
-        }).then(data => {
-            var style = $('<style/>',{ 'text': data });
-            $('head').append(style);
-        }),
-        $.ajax({
-            url: 'node_modules/gf.locate.coordinate/src/css/gf.Locate.Coordinate.css',
-            dataType: 'text',
-            cache: true
-        }).then(data => {
-            var style = $('<style/>',{ 'text': data });
-            $('head').append(style);
-        }),
         $.ajax({
             url: 'node_modules/proj4/dist/proj4.js',
             dataType: 'script',
@@ -39,7 +39,7 @@
 
             this.target = element; //html container
             //this.prefix = pluginName + "_" + this.target.attr('id'); //prefix，for identity
-            this.opt = {};        
+            this.opt = {};
             var initResult = this._init(options); //初始化
             if (initResult) {
                 //初始化成功之後的動作
@@ -53,14 +53,13 @@
 
         //預設參數
         gfLocateCoordinate.defaults = {
-            
+
             css: {
                 'width': '100%',
-                
+
                 'background-color': '#e3f0db',
                 'overflow-y': 'hidden',
                 'overflow-x': 'hidden',
-                'display': 'inline-block'
             },
 
             proj: {
@@ -77,10 +76,10 @@
                     def: '+proj=tmerc  +towgs84=-752,-358,-179,-.0000011698,.0000018398,.0000009822,.00002329 +lat_0=0 +lon_0=121 +x_0=250000 +y_0=0 +k=0.9999 +ellps=aust_SA  +units=m'
                 }
             },
-            
-            onClick: undefined,            
+
+            onClick: undefined,
             onInitComplete: undefined
-            
+
         };
 
         //方法
@@ -89,7 +88,7 @@
             _init: function (_options) {
                 //合併自訂參數與預設參數
                 try {
-                    this.opt = $.extend(true, {}, gfLocateCoordinate.defaults, _options);                    
+                    this.opt = $.extend(true, {}, gfLocateCoordinate.defaults, _options);
                     return true;
                 } catch (ex) {
                     return false;
@@ -113,13 +112,13 @@
 
                 var row2 = $('<div/>', { 'class': 'gfLocateCoordinate-Row' });
                 var lbl2 = $('<label/>', { 'class': 'gfLocateCoordinate-Label', 'text': 'X座標或E經度' });
-                var input2 = $('<input/>', { 'class': 'gfLocateCoordinate-Input gfLocateCoordinate-x', 'type': 'text' });
+                var input2 = $('<input/>', { 'class': 'gfLocateCoordinate-Input gfLocateCoordinate-x', 'type': 'text', 'placeholder': '121.98' });
                 row2.append(lbl2);
                 row2.append(input2);
 
                 var row3 = $('<div/>', { 'class': 'gfLocateCoordinate-Row' });
                 var lbl3 = $('<label/>', { 'class': 'gfLocateCoordinate-Label', 'text': 'Y座標或N緯度' });
-                var input3 = $('<input/>', { 'class': 'gfLocateCoordinate-Input gfLocateCoordinate-y', 'type': 'text' });
+                var input3 = $('<input/>', { 'class': 'gfLocateCoordinate-Input gfLocateCoordinate-y', 'type': 'text', 'placeholder': '21.98' });
                 row3.append(lbl3);
                 row3.append(input3);
 
@@ -148,7 +147,7 @@
             },
 
             _coordinateTransfer: function(x, y, sourceCoord, targetCoord="EPSG:4326"){
-                return proj4(sourceCoord, targetCoord, { x: x * 1, y: y * 1 });                
+                return proj4(sourceCoord, targetCoord, { x: x * 1, y: y * 1 });
             },
 
             //註冊事件接口
@@ -169,14 +168,14 @@
 
         };
     });
-    
+
     //實例化，揭露方法，回傳
     $.fn[pluginName] = function (options, args) {
         var gfInstance;
         this.each(function () {
             gfInstance = new gfLocateCoordinate($(this), options);
         });
-        
+
         return this;
     };
 })(jQuery, window, document);
