@@ -8,7 +8,7 @@
         url: 'node_modules/select2/dist/css/select2.min.css',
         dataType: 'text',
         cache: true
-    }).then(data => {
+    }).then(function(data){
         var style = $('<style/>',{ 'text': data });
         $('head').append(style);
     });
@@ -16,7 +16,7 @@
         url: 'node_modules/gf.locate.coordinate/src/css/gf.Locate.Coordinate.css',
         dataType: 'text',
         cache: true
-    }).then(data => {
+    }).then(function(data){
         var style = $('<style/>',{ 'text': data });
         $('head').append(style);
     });
