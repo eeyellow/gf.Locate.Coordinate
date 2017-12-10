@@ -146,7 +146,10 @@
                     });
             },
 
-            _coordinateTransfer: function(x, y, sourceCoord, targetCoord="EPSG:4326"){
+            _coordinateTransfer: function(x, y, sourceCoord, targetCoord){
+                if(targetCoord == undefined){
+                    targetCoord = "EPSG:4326";
+                }
                 return proj4(sourceCoord, targetCoord, { x: x * 1, y: y * 1 });
             },
 
