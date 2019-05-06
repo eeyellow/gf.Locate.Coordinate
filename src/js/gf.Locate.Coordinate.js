@@ -5,7 +5,7 @@
     var gfLocateCoordinate;
 
     $.ajax({
-        url: 'node_modules/select2/dist/css/select2.min.css',
+        url: 'node_modules/bootstrap-select/dist/css/bootstrap-select.min.css',
         dataType: 'text',
         cache: true
     }).then(function(data){
@@ -28,7 +28,7 @@
             cache: true
         }),
         $.ajax({
-            url: 'node_modules/select2/dist/js/select2.min.js',
+            url: 'node_modules/bootstrap-select/dist/js/bootstrap-select.min.js',
             dataType: 'script',
             cache: true
         })
@@ -131,7 +131,7 @@
                 o.target.append(row3);
                 o.target.append(row4);
 
-                sel.select2();
+                sel.selectpicker();
             },
             _event: function () {
                 var o = this;
