@@ -140,7 +140,7 @@
                     .click(function(e){
                         var x = o.target.find('.gfLocateCoordinate-x').val();
                         var y = o.target.find('.gfLocateCoordinate-y').val();
-                        var coord = o.target.find('.gfLocateCoordinate-Select').val();
+                        var coord = o.target.find('.gfLocateCoordinate-Select').selectpicker('val');
                         var newPoint = o._coordinateTransfer(x, y, coord);
                         o.target.trigger("onClick", newPoint);
                     });
