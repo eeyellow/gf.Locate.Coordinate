@@ -112,13 +112,13 @@
 
                 var row2 = $('<div/>', { 'class': 'gfLocateCoordinate-Row' });
                 var lbl2 = $('<label/>', { 'class': 'gfLocateCoordinate-Label', 'text': 'X座標或E經度' });
-                var input2 = $('<input/>', { 'class': 'gfLocateCoordinate-Input gfLocateCoordinate-x', 'type': 'text', 'placeholder': '範例: 121.98' });
+                var input2 = $('<input/>', { 'class': 'gfLocateCoordinate-Input gfLocateCoordinate-x', 'type': 'text', 'placeholder': '範例: 120.973' });
                 row2.append(lbl2);
                 row2.append(input2);
 
                 var row3 = $('<div/>', { 'class': 'gfLocateCoordinate-Row' });
                 var lbl3 = $('<label/>', { 'class': 'gfLocateCoordinate-Label', 'text': 'Y座標或N緯度' });
-                var input3 = $('<input/>', { 'class': 'gfLocateCoordinate-Input gfLocateCoordinate-y', 'type': 'text', 'placeholder': '範例:  21.98' });
+                var input3 = $('<input/>', { 'class': 'gfLocateCoordinate-Input gfLocateCoordinate-y', 'type': 'text', 'placeholder': '範例:  23.976' });
                 row3.append(lbl3);
                 row3.append(input3);
 
